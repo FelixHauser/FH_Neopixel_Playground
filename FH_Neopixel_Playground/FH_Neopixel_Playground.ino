@@ -1,5 +1,7 @@
 #include <FastLED.h>
 
+#include <Bounce.h>  // Debounce Library, to use the rotary button
+
 #include <RotaryEncoder.h>
 
 //Rotary encoder stuff
@@ -11,6 +13,8 @@
 
 #define ENCODER_CW 6
 #define ENCODER_CCW 5
+
+#define ROTARY_BUTTON 8
 
 //LED strip input
 
@@ -26,12 +30,16 @@ CRGB leds[NUM_LEDS];
 // Setup a RoraryEncoder 
 RotaryEncoder encoder(ENCODER_CW, ENCODER_CCW);
 
+Bounce pushButton = Bounce (ROTARY_BUTTON, 10);
+
 // Last known rotary position.
 int lastPos = -1;
 
 void setup()
 {
   Serial.begin(9600);
+
+  pinMode (ROTARY_BUTTON, INPUT_PULLUP); //my encoder does not have pcb
   
   FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
   
@@ -40,8 +48,9 @@ void setup()
 } 
 
 
-void loop()
-{
+void loop() {
+
+  
   encoder.tick();
 
   // get the current physical position and calc the logical position
@@ -77,5 +86,17 @@ void loop()
 
    
   } 
+
+  if (pushButton.update() && pushButton.read()==LOW){
+    
+  //Serial.println("button pushed");
+ 
+  for (int p=0; p<lastPos+1; p++){
+  leds[p]=CRGB::Green;
   
+  }
+  FastLED.show();
 } 
+
+
+}

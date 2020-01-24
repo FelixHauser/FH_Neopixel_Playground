@@ -2,10 +2,15 @@
 
 #include <RotaryEncoder.h>
 
+//Rotary encoder stuff
+
 #define ROTARYSTEPS 1
 #define ROTARYMIN -1
 #define ROTARYMAX 36
 #define START_POSITION 0
+
+#define ENCODER_CW 6
+#define ENCODER_CCW 5
 
 //LED strip input
 
@@ -17,8 +22,9 @@
 
 CRGB leds[NUM_LEDS]; 
 
-// Setup a RoraryEncoder for pins A2 and A3:
-RotaryEncoder encoder(5, 6);
+
+// Setup a RoraryEncoder 
+RotaryEncoder encoder(ENCODER_CW, ENCODER_CCW);
 
 // Last known rotary position.
 int lastPos = -1;
@@ -30,6 +36,7 @@ void setup()
   FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
   
   encoder.setPosition(START_POSITION / ROTARYSTEPS);
+  
 } 
 
 

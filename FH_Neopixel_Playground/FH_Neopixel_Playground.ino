@@ -1,6 +1,6 @@
 #include <FastLED.h>
 
-#include <Bounce.h>  // Debounce Library, to use the rotary button
+//#include <Bounce.h>  // Debounce Library, to use the rotary button
 
 #include <RotaryEncoder.h>
 
@@ -28,9 +28,9 @@ CRGB leds[NUM_LEDS];
 
 
 // Setup a RoraryEncoder 
-RotaryEncoder encoder(ENCODER_CW, ENCODER_CCW);
+RotaryEncoder encoder(ENCODER_CW, ENCODER_CCW, ROTARY_BUTTON, 10);
 
-Bounce pushButton = Bounce (ROTARY_BUTTON, 10);
+//Bounce pushButton = Bounce (ROTARY_BUTTON, 10);
 
 // Last known rotary position.
 int lastPos = -1;
@@ -87,7 +87,7 @@ void loop() {
    
   } 
 
-  if (pushButton.update() && pushButton.read()==LOW){
+  if (encoder.update() && encoder.read()==LOW){
     
   //Serial.println("button pushed");
  
